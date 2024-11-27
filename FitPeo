@@ -1,0 +1,84 @@
+package Task;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+
+public class FitPeoDemo1 {
+
+WebDriver driver;
+JavascriptExecutor jse;
+Actions actobj;
+
+
+public void LaunchAUT() throws InterruptedException  // // Launch the browser in Chrome
+
+{
+	  // Set the path to the ChromeDriver executable
+	System.setProperty("Webdriver.chrome.driver","C:\\Users\\shanm\\OneDrive\\Documents\\Selenium\\Drivers\\chromedriver-win64\\chromedriver-win64\\chromedriver.exe");
+	driver = new ChromeDriver();    // Initialize ChromeDriver
+	driver.get("https://fitpeo.com/home");  // Open the specified URL
+	Thread.sleep(2000);  //Hold the active window few seconds
+	driver.manage().window().maximize();   // Maximize the browser window
+	Thread.sleep(2000);
+	driver.findElement(By.xpath("//div[text() = 'Home']")).click();   // Click on the 'Home' element
+	Thread.sleep(2000);
+	
+}
+
+public void navigate() throws InterruptedException
+{
+	jse = (JavascriptExecutor)driver;   // Cast driver to JavaScriptExecutor
+	WebElement Revenue = driver.findElement(By.xpath("//div[text() = 'Revenue Calculator']"));  // Locate 'Revenue Calculator' element
+	jse.executeScript("arguments[0].click();",Revenue);  // Click on the element using JavaScript
+	Thread.sleep(2000);
+	jse.executeScript("window.scrollBy(0,400);");  // Scroll down the page by 400 pixels
+	actobj = new Actions(driver);  // Initialize Actions object
+	
+    WebElement Slider = driver.findElement(By.xpath("//span[@class = 'MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium css-16i48op']"));  // Locate the slider element
+
+    Thread.sleep(2000); 
+    actobj.dragAndDropBy(Slider, -25,0).perform();  // Drag the slider by -25 on the x-axis
+    Thread.sleep(2000);
+    driver.findElement(By.xpath("//input[@type ='number']")).clear();  // Clear the input field
+    Thread.sleep(2000);
+    actobj.dragAndDropBy(Slider, -500,0).perform();  // Drag the slider by -500 on the x-axis
+    driver.findElement(By.xpath("//input[@type ='number']")).sendKeys("560");  // Enter '560' in the input field
+    Thread.sleep(2000);
+    
+    driver.findElement(By.xpath("//input[@type ='number']")).clear();
+    actobj.dragAndDropBy(Slider, -500,0).perform();
+    driver.findElement(By.xpath("//input[@type ='number']")).sendKeys("820");
+    
+    
+      Thread.sleep(2000); 
+      
+    jse.executeScript("window.scrollBy(0,300);");  // Scroll down the page by 300 pixels
+    Thread.sleep(2000);
+    driver.findElement(By.xpath("//input[@type = 'checkbox']")).click();  // Click on the checkbox
+    Thread.sleep(2000);
+    driver.findElement(By.xpath("//span[text() ='19.19']")).click(); // Click on the element with text '19.19'
+    Thread.sleep(2000); // Pause execution for 2 seconds
+    driver.findElement(By.xpath("//span[text() ='63']")).click(); // Click on the element with text '63'
+    Thread.sleep(2000);
+    jse.executeScript("window.scrollBy(0,400);"); // Scroll down the page by 400 pixels
+    Thread.sleep(2000);
+    driver.findElement(By.xpath("//span[text() ='15']")).click();  // Click on the element with text '15'
+    Thread.sleep(2000);
+   
+}
+
+
+	public static void main(String[] args) throws InterruptedException {
+		FitPeoDemo1 obj = new FitPeoDemo1();  // Create an instance of the class
+		obj.LaunchAUT();// Call the LaunchAUT method to launch the browser and open the application
+	    obj.navigate(); // Call the navigate method to perform interactions
+	    Thread.sleep(2000);
+		
+	}
+
+}
